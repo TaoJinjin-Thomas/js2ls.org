@@ -16,19 +16,29 @@ li input:hover {
     background: white;
 }
 </style>
+<script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 </head><body><div id="container" style="height: auto">
           <form method="post">
               <div id="js2ls" class="tab">
-                <textarea name="src">/* Type here! */
+			  <div id="editor_left" class="editor"><textarea name="src">/* Type here! */
 
 (function ($) {
     $.fn.highlight = function () {
         $(this).css({ color: 'red', background: 'yellow' });
         $(this).fadeIn();
     };
-})(jQuery);</textarea>
-                <textarea readonly name=""></textarea>
+})(jQuery);</textarea></div>
+                <div id="editor_right" class="editor"> <textarea readonly name=""></textarea></div>
+<script>
+var lefteditor = ace.edit("editor_left");
+lefteditor.setTheme("ace/theme/textmate");
+lefteditor.getSession().setMode("ace/mode/javascript");
+var righteditor = ace.edit("editor_right");
+lefteditor.setTheme("ace/theme/textmate");
+lefteditor.getSession().setMode("ace/mode/coffee");
+</script>				
               </div>
+
 <div id="tabs">
 <ul>
 <li style="float: right; margin-right: 20px">

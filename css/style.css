@@ -52,7 +52,6 @@ body {
 }
 .tab form {
 
-	
 }
 .tab textarea{
 	width:49%;
@@ -66,9 +65,23 @@ body {
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
+}
+.tab .editor {
+	position: relative;
+	float: left;
+	text-align: left;
+	width:49%;
+	min-height:500px;
+	border: 1px solid #ccc;
+	-moz-box-shadow: 0 0 0 1px #fff;
+	-webkit-box-shadow: 0 0 0 1px #fff;
+	box-shadow: 0 0 0 1px #fff;
 
-	
-	}
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
 #coffee2ls {
 	display:none;
 }

@@ -52,7 +52,7 @@ angular.module('ace', []).directive('ace', function() {
 	
       function read() {
 	  
-		var righteditor = loadAceEditor($('#righteditor'), 'javascript');
+		var righteditor = loadAceEditor($('#righteditor'), 'coffee');
         ngModel.$setViewValue(editor.getValue());
         textarea.val(editor.getValue());
 		// wrap all JavaScript code into eval block for syntax validation

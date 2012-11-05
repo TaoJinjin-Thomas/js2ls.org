@@ -1,6 +1,9 @@
 body {
 	background:url('../img/bedge_grunge.png');
 }
+#righteditor .ace_error, #righteditor .ace_warning {
+    background-image: none !important;
+}
 #container {
 	width:95%;
 	margin:20px auto;
@@ -106,3 +109,4 @@ body {
 	.tab textarea{
 	width:100%;
 	}
+

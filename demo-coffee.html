@@ -6,27 +6,23 @@
 <link rel='stylesheet' href='css/style.css'>
 <script src="Coffee2LS.js" type="text/javascript" charset="utf-8"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="http://js2coffee.org/scripts/underscore.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="http://js2coffee.org/scripts/coffeescript.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="http://js2coffee.org/scripts/js2coffee.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="scripts/angular-ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="scripts/angular-ace-coffee.js" type="text/javascript" charset="utf-8"></script>
 <script src="scripts/controllers.js" type="text/javascript" charset="utf-8"></script>
 
 </head><body><div id="container" style="height: auto">
           <form method="post">
               <div id="js2ls" class="tab">
-			  <div ace="javascript" ng-model="jscode" id="lefteditor"><textarea name="src">
+			  <div ace="coffee" ng-model="jscode" id="lefteditor"><textarea name="src">
 
-/* Type here! */
-
-(function () {
-    $.fn.highlight = function () {
-        $(this).css({ color: 'red', background: 'yellow' });
-        $(this).fadeIn();
-    };
-})(jQuery);
+# Type Here!
+$ -&gt;
+    $.fn.highlight = -&gt;
+        $(this).css
+            color: "red"
+            background: "yellow"
+        $(this).fadeIn()
 </textarea></div>
 			  <div ace="coffee" id="righteditor"><textarea name="out"></textarea></div>
               <div id="error" style="display: none;"></div>
@@ -37,10 +33,10 @@
 <li style="float: right; margin-right: 20px">
 <a target="_blank" href="http://livescript.net/"><img height="30" src="https://s3.amazonaws.com/github/downloads/gkz/LiveScript/logo.png"></a>
 </li>
-<li class="selected">
-JavaScript<!-- TODO: Set up real tabs -->
-</li><li class="">
-<a style="color: black; text-decoration: none" href="demo-coffee.html">CoffeeScript</a><!-- TODO: Set up real tabs -->
+<li>
+<a style="color: black; text-decoration: none" href="demo.html">JavaScript</a><!-- TODO: Set up real tabs -->
+</li><li class="selected">
+CoffeeScript
 </li></ul>
 </div>
           </form>

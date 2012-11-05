@@ -1,9 +1,10 @@
 angular.module('ace', []).directive('ace', function() {
   var ACE_EDITOR_CLASS = 'ace-editor';
 
-  function loadAceEditor(element, mode) {
+  function loadAceEditor(element, mode, useWorker) {
     var editor = ace.edit($(element).find('.' + ACE_EDITOR_CLASS)[0]);
     editor.session.setMode("ace/mode/" + mode);
+    editor.session.setUseWorker(useWorker);
     editor.renderer.setShowPrintMargin(false);
 
     return editor;
@@ -24,7 +25,7 @@ angular.module('ace', []).directive('ace', function() {
       textarea.hide();
 
       var mode = attrs.ace;
-      var editor = loadAceEditor(element, mode);
+      var editor = loadAceEditor(element, mode, true);
 
       scope.ace = editor;
 
@@ -50,7 +51,7 @@ angular.module('ace', []).directive('ace', function() {
 	
       function read() {
 	  
-		var righteditor = loadAceEditor($('#righteditor'), 'coffee');
+		var righteditor = loadAceEditor($('#righteditor'), 'coffee', false);
         ngModel.$setViewValue(editor.getValue());
         textarea.val(editor.getValue());
 		// wrap all JavaScript code into eval block for syntax validation

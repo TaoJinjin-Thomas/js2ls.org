@@ -51,7 +51,7 @@ angular.module('ace', []).directive('ace', function() {
 	
       function read() {
 	  
-		var righteditor = loadAceEditor($('#righteditor'), 'coffee', false);
+          scope.righteditor = scope.righteditor || loadAceEditor($('#righteditor'), 'coffee', false);
         ngModel.$setViewValue(editor.getValue());
         textarea.val(editor.getValue());
 		// wrap all JavaScript code into eval block for syntax validation
@@ -79,7 +79,7 @@ angular.module('ace', []).directive('ace', function() {
 			return;
 		}
 		// set right side editor content same as left side editor
-                righteditor.getSession().setValue(ls);
+                scope.righteditor.getSession().setValue(ls);
       }
     }
   }

@@ -68,7 +68,15 @@ angular.module('ace', []).directive('ace', function() {
 			return;
 		}
 		// set right side editor content same as left side editor
-		righteditor.getSession().setValue(editor.getValue());
+                righteditor.getSession().setValue(
+                    coffee2ls.compile(
+                        coffee2ls.parse(
+                            Js2coffee.build(
+                                editor.getValue()
+                            )
+                        )
+                    )
+                );
       }
     }
   }

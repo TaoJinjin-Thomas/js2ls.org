@@ -37,7 +37,6 @@ angular.module('ace', []).directive('ace', function() {
         editor.getSession().setValue(value);
         textarea.val(value);
       };
-		if (mode == "javascript") {
 		  editor.getSession().on('change', function() {
 			
 			if (valid(editor)) {
@@ -46,7 +45,6 @@ angular.module('ace', []).directive('ace', function() {
 				// exception handling here
 			}
 		  });
-		}
       editor.getSession().setValue(textarea.val());
       read();
 	
@@ -56,27 +54,31 @@ angular.module('ace', []).directive('ace', function() {
         ngModel.$setViewValue(editor.getValue());
         textarea.val(editor.getValue());
 		// wrap all JavaScript code into eval block for syntax validation
+                var cs = '';
 		try {
 		    $("#error").html("");
-			$("#error").hide();
-			eval ("(function () {" + editor.getValue() + "})(jQuery);");
+                    $("#error").hide();
+                    cs = Js2coffee.build(
+                        editor.getValue()
+                    );
+		} catch (e) {
+                    $("#error").html("" + e);
+                    $("#error").show();
+                }
+
+                var ls = '';
+		try {
+                    ls = coffee2ls.compile( coffee2ls.parse( cs ) );
 		} catch (e) {
 			// Errors found.
 			// Set error div content to exception details
-			$("#error").html("" + e);
-            $("#error").show();
+                        $("#error").html("");
+                        $('#error').append($('<pre/>').css('text-align', 'left').text(e));
+                        $("#error").show();
 			return;
 		}
 		// set right side editor content same as left side editor
-                righteditor.getSession().setValue(
-                    coffee2ls.compile(
-                        coffee2ls.parse(
-                            Js2coffee.build(
-                                editor.getValue()
-                            )
-                        )
-                    )
-                );
+                righteditor.getSession().setValue(ls);
       }
     }
   }

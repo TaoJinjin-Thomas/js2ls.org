@@ -37,7 +37,6 @@ angular.module('ace', []).directive('ace', function() {
         editor.getSession().setValue(value);
         textarea.val(value);
       };
-		if (mode == "coffee") {
 		  editor.getSession().on('change', function() {
 			
 			if (valid(editor)) {
@@ -46,7 +45,6 @@ angular.module('ace', []).directive('ace', function() {
 				// exception handling here
 			}
 		  });
-		}
       editor.getSession().setValue(textarea.val());
       read();
 	

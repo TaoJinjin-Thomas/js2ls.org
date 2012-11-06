@@ -48,9 +48,16 @@ body {
 			background:#999;
 			box-shadow: inset 0px 1px 1px #666;
 	}
-
+#tabs li.selected-true
+	{
+			color:#FFF;
+			text-shadow: 0 1px 0 #333;
+			background:#999;
+			box-shadow: inset 0px 1px 1px #666;
+	}
 .tab {
 	text-align:center;
+	display: block;
 	padding:5px;
 }
 .tab form {
@@ -85,7 +92,7 @@ body {
 	border-radius: 5px;
 }
 
-#error {
+div.error {
  -moz-box-sizing: border-box; 
  -webkit-box-sizing: border-box; 
  box-sizing: border-box; 
@@ -99,6 +106,21 @@ body {
  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3); 
  z-index: 100; 
 }
+
+/*#error1 {
+ -moz-box-sizing: border-box; 
+ -webkit-box-sizing: border-box; 
+ box-sizing: border-box; 
+ position: absolute; 
+ top: 20px; 
+ left: 50%; 
+ max-width: 40%; 
+ padding: 5px 10px; 
+ background: rgba(153, 51, 51, 0.9); 
+ color: #eeeeee; 
+ text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3); 
+ z-index: 100; 
+}*/
 
 #coffee2ls {
 	display:none;

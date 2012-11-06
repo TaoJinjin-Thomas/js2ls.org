@@ -26,13 +26,13 @@ angular.module('ace', []).directive('ace', function() {
 
       var mode = attrs.ace;
       var editor = loadAceEditor(element, mode, true);
+	  var editor_id = attrs.id;
 
       scope.ace = editor;
 
       if (!ngModel) {
 	  return; // do nothing if no ngModel
 	  }
-
       ngModel.$render = function() {
         var value = ngModel.$viewValue || '';
         editor.getSession().setValue(value);
@@ -50,36 +50,52 @@ angular.module('ace', []).directive('ace', function() {
       read();
 	
       function read() {
-	  
+		var err;
+		if (editor_id == 'lefteditor') {
+			err = '#error';
           scope.righteditor = scope.righteditor || loadAceEditor($('#righteditor'), 'coffee', false);
-        ngModel.$setViewValue(editor.getValue());
+		} else if (editor_id == 'lefteditor1') {
+			err = '#error1';
+		  scope.righteditor1 = scope.righteditor1 || loadAceEditor($('#righteditor1'), 'coffee', false);
+        }
+		
+		ngModel.$setViewValue(editor.getValue());
         textarea.val(editor.getValue());
 		// wrap all JavaScript code into eval block for syntax validation
-                var cs = '';
+        var cs = '';
+		if (editor_id == 'lefteditor1') {
+		    $(err).html("");
+            $(err).hide();
+			cs = editor.getValue();
+		} else if (editor_id == 'lefteditor') {
 		try {
-		    $("#error").html("");
-                    $("#error").hide();
-                    cs = Js2coffee.build(
+		    $(err).html("");
+            $(err).hide();
+			cs = Js2coffee.build(
                         editor.getValue()
                     );
 		} catch (e) {
-                    $("#error").html("" + e);
-                    $("#error").show();
+                    $(err).html("" + e);
+                    $(err).show();
                 }
-
+		}
                 var ls = '';
 		try {
                     ls = coffee2ls.compile( coffee2ls.parse( cs ) );
 		} catch (e) {
 			// Errors found.
 			// Set error div content to exception details
-                        $("#error").html("");
-                        $('#error').append($('<pre/>').css('text-align', 'left').text(e));
-                        $("#error").show();
+                        $(err).html("");
+                        $(err).append($('<pre/>').css('text-align', 'left').text(e));
+                        $(err).show();
 			return;
 		}
 		// set right side editor content same as left side editor
-                scope.righteditor.getSession().setValue(ls);
+				if (editor_id == 'lefteditor') {
+					scope.righteditor.getSession().setValue(ls);
+				} else if (editor_id == 'lefteditor1') {
+					scope.righteditor1.getSession().setValue(ls);
+				}
       }
     }
   }

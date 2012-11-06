@@ -10,10 +10,6 @@ angular.module('ace', []).directive('ace', function() {
     return editor;
   }
 
-  function valid(editor) {
-    return (Object.keys(editor.getSession().getAnnotations()).length == 0);
-  }
-
   return {
     restrict: 'A',
     require: '?ngModel',
@@ -25,7 +21,7 @@ angular.module('ace', []).directive('ace', function() {
       textarea.hide();
 
       var mode = attrs.ace;
-      var editor = loadAceEditor(element, mode, true);
+      var editor = loadAceEditor(element, mode, false);
 	  var editor_id = attrs.id;
 
       scope.ace = editor;
@@ -39,12 +35,7 @@ angular.module('ace', []).directive('ace', function() {
         textarea.val(value);
       };
 		  editor.getSession().on('change', function() {
-			
-			if (valid(editor)) {
 			  scope.$apply(read);
-			} else {
-				// exception handling here
-			}
 		  });
       editor.getSession().setValue(textarea.val());
       read();

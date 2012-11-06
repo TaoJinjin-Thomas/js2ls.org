@@ -34,6 +34,7 @@ body {
 			border-radius: 25px;
 			padding:5px 10px 5px 10px;
 			text-shadow: 0 1px 0 #FFF;
+			cursor:pointer;
 	}
 	
 #tabs li:hover{
@@ -106,21 +107,6 @@ div.error {
  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3); 
  z-index: 100; 
 }
-
-/*#error1 {
- -moz-box-sizing: border-box; 
- -webkit-box-sizing: border-box; 
- box-sizing: border-box; 
- position: absolute; 
- top: 20px; 
- left: 50%; 
- max-width: 40%; 
- padding: 5px 10px; 
- background: rgba(153, 51, 51, 0.9); 
- color: #eeeeee; 
- text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3); 
- z-index: 100; 
-}*/
 
 #coffee2ls {
 	display:none;

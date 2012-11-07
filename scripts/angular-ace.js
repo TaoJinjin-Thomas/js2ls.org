@@ -1,10 +1,11 @@
 angular.module('ace', []).directive('ace', function() {
   var ACE_EDITOR_CLASS = 'ace-editor';
 
-  function loadAceEditor(element, mode) {
+  function loadAceEditor(element, mode, isReadOnly) {
     var editor = ace.edit($(element).find('.' + ACE_EDITOR_CLASS)[0]);
     editor.session.setMode("ace/mode/" + mode);
     editor.renderer.setShowPrintMargin(false);
+	editor.setReadOnly(isReadOnly);
 
     return editor;
   }
@@ -20,14 +21,19 @@ angular.module('ace', []).directive('ace', function() {
       textarea.hide();
 
       var mode = attrs.ace;
-      var editor = loadAceEditor(element, mode);
+      var editor;
 	  var editor_id = attrs.id;
-		var err;
-		if (editor_id == 'js2lslefteditor' || editor_id === 'js2lsrighteditor') {
-		  err = '#js2lserror';
-		} else if (editor_id == 'cs2lslefteditor' || editor_id === 'cs2lsrighteditor') {
-		  err = '#cs2lserror';
-        }
+	  if (editor_id == 'js2lslefteditor' || editor_id == 'cs2lslefteditor') {
+	    editor = loadAceEditor(element, mode, false);
+	  } else if (editor_id == 'js2lsrighteditor' || editor_id == 'cs2lsrighteditor') {
+	    editor = loadAceEditor(element, mode, true);
+	  }
+	  var err;
+	  if (editor_id == 'js2lslefteditor' || editor_id === 'js2lsrighteditor') {
+		err = '#js2lserror';
+	  } else if (editor_id == 'cs2lslefteditor' || editor_id === 'cs2lsrighteditor') {
+	    err = '#cs2lserror';
+      }
 
       scope.ace = editor;
 	  if (editor_id === 'js2lsrighteditor') {

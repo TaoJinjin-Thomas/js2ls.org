@@ -1,10 +1,9 @@
 angular.module('ace', []).directive('ace', function() {
   var ACE_EDITOR_CLASS = 'ace-editor';
 
-  function loadAceEditor(element, mode, useWorker) {
+  function loadAceEditor(element, mode) {
     var editor = ace.edit($(element).find('.' + ACE_EDITOR_CLASS)[0]);
     editor.session.setMode("ace/mode/" + mode);
-    editor.session.setUseWorker(useWorker);
     editor.renderer.setShowPrintMargin(false);
 
     return editor;
@@ -21,72 +20,94 @@ angular.module('ace', []).directive('ace', function() {
       textarea.hide();
 
       var mode = attrs.ace;
-      var editor = loadAceEditor(element, mode, false);
+      var editor = loadAceEditor(element, mode);
 	  var editor_id = attrs.id;
+		var err;
+		if (editor_id == 'js2lslefteditor' || editor_id === 'js2lsrighteditor') {
+		  err = '#js2lserror';
+		} else if (editor_id == 'cs2lslefteditor' || editor_id === 'cs2lsrighteditor') {
+		  err = '#cs2lserror';
+        }
 
       scope.ace = editor;
+	  if (editor_id === 'js2lsrighteditor') {
+	    scope.js2lsrighteditor = editor;
+	  } else if (editor_id === 'cs2lsrighteditor') {
+	    scope.cs2lsrighteditor = editor;
+	  } else if (editor_id === 'js2lslefteditor') {
+	    scope.js2lslefteditor = editor;
+	  } else if (editor_id === 'cs2lslefteditor') {
+	    scope.cs2lslefteditor = editor;
+	  }
 
       if (!ngModel) {
-	  return; // do nothing if no ngModel
+		read();
+		return; // do nothing if no ngModel
 	  }
       ngModel.$render = function() {
         var value = ngModel.$viewValue || '';
         editor.getSession().setValue(value);
         textarea.val(value);
       };
-		  editor.getSession().on('change', function() {
-                          read();
-		  });
+
+      editor.getSession().on('change', function() {
+        scope.$apply(read);
+      });
+
       editor.getSession().setValue(textarea.val());
       read();
-	
+
       function read() {
-		var err;
-		if (editor_id == 'lefteditor') {
-			err = '#error';
-          scope.righteditor = scope.righteditor || loadAceEditor($('#righteditor'), 'coffee', false);
-		} else if (editor_id == 'lefteditor1') {
-			err = '#error1';
-		  scope.righteditor1 = scope.righteditor1 || loadAceEditor($('#righteditor1'), 'coffee', false);
+		if (ngModel) {
+		  ngModel.$setViewValue(editor.getValue());
+		  textarea.val(editor.getValue());
         }
 		
-		ngModel.$setViewValue(editor.getValue());
-        textarea.val(editor.getValue());
+		
 		// wrap all JavaScript code into eval block for syntax validation
         var cs = '';
-		if (editor_id == 'lefteditor1') {
-		    $(err).html("");
-            $(err).hide();
-			cs = editor.getValue();
-		} else if (editor_id == 'lefteditor') {
-		try {
-		    $(err).html("");
-            $(err).hide();
+		$(err).html("");
+        $(err).hide();
+		if (editor_id == 'cs2lslefteditor') {
+		  cs = editor.getValue();
+		} else if (editor_id == 'js2lslefteditor') {
+		  try {
 			cs = Js2coffee.build(
-                        editor.getValue()
-                    );
-		} catch (e) {
-                    $(err).html("" + e);
-                    $(err).show();
-                }
+              editor.getValue()
+            );
+		  } catch (e) {
+            $(err).html("" + e);
+            $(err).show();
+          }
+		} else if (editor_id == 'js2lsrighteditor') {
+          try {
+			cs = Js2coffee.build(
+              scope.js2lslefteditor.getValue()
+            );
+		  } catch (e) {
+            $(err).html("" + e);
+            $(err).show();
+          }		
+		} else if (editor_id === 'cs2lsrighteditor') {
+		  cs = scope.cs2lslefteditor.getValue();
 		}
-                var ls = '';
+        var ls = '';
 		try {
-                    ls = coffee2ls.compile( coffee2ls.parse( cs ) );
+          ls = coffee2ls.compile( coffee2ls.parse( cs ) );
 		} catch (e) {
-			// Errors found.
-			// Set error div content to exception details
-                        $(err).html("");
-                        $(err).append($('<pre/>').css('text-align', 'left').text(e));
-                        $(err).show();
-			return;
+		  // Errors found.
+		  // Set error div content to exception details
+          $(err).html("");
+          $(err).append($('<pre/>').css('text-align', 'left').text(e));
+          $(err).show();
+		  return;
 		}
 		// set right side editor content same as left side editor
-				if (editor_id == 'lefteditor') {
-					scope.righteditor.getSession().setValue(ls);
-				} else if (editor_id == 'lefteditor1') {
-					scope.righteditor1.getSession().setValue(ls);
-				}
+		if (editor_id == 'js2lslefteditor' || editor_id === 'js2lsrighteditor') {
+		  scope.js2lsrighteditor.getSession().setValue(ls);
+		} else if (editor_id == 'cs2lslefteditor' || editor_id === 'cs2lsrighteditor') {
+		  scope.cs2lsrighteditor.getSession().setValue(ls);
+		}
       }
     }
   }

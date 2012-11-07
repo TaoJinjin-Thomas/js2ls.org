@@ -17,7 +17,7 @@
 </head><body ng-controller="TabCtrl"><div id="container" style="height: auto">
           <form method="post">
               <div id="js2ls" class="tab">
-			  <div ace="javascript" ng-model="jscode" id="lefteditor"><textarea name="src">
+			  <div ace="javascript" ng-model="jscode" id="js2lslefteditor"><textarea name="js2lssrc">
 
 /* Type JavaScript here! */
 
@@ -28,11 +28,11 @@
     };
 })(jQuery);
 </textarea></div>
-			  <div ace="coffee" id="righteditor"><textarea name="out"></textarea></div>
-              <div id="error" class="error"></div>
+			  <div ace="coffee" id="js2lsrighteditor"><textarea name="js2lsout"></textarea></div>
+              <div id="js2lserror" class="error"></div>
 			</div>
-<div id="ls2js" class="tab">
-			  <div ace="coffee" ng-model="coffeecode" id="lefteditor1"><textarea name="src1">
+<div id="cs2ls" class="tab">
+			  <div ace="coffee" ng-model="coffeecode" id="cs2lslefteditor"><textarea name="cs2lssrc">
 
 # Type Here!
 $ ->
@@ -42,8 +42,8 @@ $ ->
             background: "yellow"
         $(this).fadeIn()
 </textarea></div>
-			  <div ace="coffee" id="righteditor1"><textarea name="out1"></textarea></div>
-              <div id="error1" class="error"></div>
+			  <div ace="coffee" id="cs2lsrighteditor"><textarea name="cs2lsout"></textarea></div>
+              <div id="cs2lserror" class="error"></div>
 			</div>
 <div id="tabs">
 <ul>

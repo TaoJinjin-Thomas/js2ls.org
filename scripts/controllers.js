@@ -2,7 +2,7 @@ angular.module('myapp', ['ace']);
 function TabCtrl ($scope) {
 	$scope.currentTab = 'JavaScript';
 	$('#js2ls').css('display', 'block');
-	$('#ls2js').css('display', 'none');
+	$('#cs2ls').css('display', 'none');
 	$scope.tabs = [{name: "JavaScript", selected: true, mode: "javascript"}, {name: "CoffeeScript", selected: false, mode:"coffee"}];
 	$scope.toggleTab = function(tabName) {
 		if ($scope.currentTab === tabName) {
@@ -20,9 +20,9 @@ function TabCtrl ($scope) {
 		
 		if ($scope.currentTab === 'JavaScript') {
 			$('#js2ls').css('display', 'block');;
-			$('#ls2js').css('display', 'none');
+			$('#cs2ls').css('display', 'none');
 		} else if ($scope.currentTab === 'CoffeeScript') {
-			$('#ls2js').css('display', 'block');;
+			$('#cs2ls').css('display', 'block');;
 			$('#js2ls').css('display', 'none');
 		}
 	};

@@ -35,7 +35,7 @@ angular.module('ace', []).directive('ace', function() {
         textarea.val(value);
       };
 		  editor.getSession().on('change', function() {
-			  scope.$apply(read);
+                          read();
 		  });
       editor.getSession().setValue(textarea.val());
       read();

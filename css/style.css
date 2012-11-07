@@ -1,8 +1,8 @@
 body {
 	background:url('../img/bedge_grunge.png');
 }
-#righteditor .ace_error, #righteditor .ace_warning,
-#righteditor1 .ace_error, #righteditor1 .ace_warning {
+#js2lsrighteditor .ace_error, #js2lsrighteditor .ace_warning,
+#cs2lsrighteditor .ace_error, #cs2lsrighteditor .ace_warning {
     background-image: none !important;
 }
 #container {

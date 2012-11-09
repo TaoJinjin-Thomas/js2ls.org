@@ -23,9 +23,9 @@ angular.module('ace', []).directive('ace', function() {
       var mode = attrs.ace;
       var editor;
 	  var editor_id = attrs.id;
-	  if (editor_id == 'js2lslefteditor' || editor_id == 'cs2lslefteditor') {
+	  if (editor_id == 'js2lslefteditor' || editor_id == 'js2lsrighteditor' || editor_id == 'cs2lslefteditor') {
 	    editor = loadAceEditor(element, mode, false);
-	  } else if (editor_id == 'js2lsrighteditor' || editor_id == 'cs2lsrighteditor') {
+	  } else if (editor_id == 'cs2lsrighteditor') {
 	    editor = loadAceEditor(element, mode, true);
 	  }
 	  var err;
@@ -47,8 +47,13 @@ angular.module('ace', []).directive('ace', function() {
 	  }
 
       if (!ngModel) {
+		// right hand side editors wont have ng-model
+		// We should register onchange event handler for js2ls right hand side editor only
 		read();
-		return; // do nothing if no ngModel
+		if (editor_id === 'js2lsrighteditor') {
+		  editor.getSession().on('change', rightEditorChangeHandler);
+		}
+		return;
 	  }
       ngModel.$render = function() {
         var value = ngModel.$viewValue || '';
@@ -56,13 +61,21 @@ angular.module('ace', []).directive('ace', function() {
         textarea.val(value);
       };
 
-      editor.getSession().on('change', function() {
-        scope.$apply(read);
-      });
+      editor.getSession().on('change', leftEditorChangeHandler);
 
       editor.getSession().setValue(textarea.val());
       read();
 
+	  // Right Editor Change Handler only for js2ls
+	  function rightEditorChangeHandler() {
+	    $('#left_arrow').css('display', 'block');
+	  }
+	  
+	  // Left Editor Change Handler for both js2ls and cs2ls
+	  function leftEditorChangeHandler() {
+		scope.$apply(read);
+	  }
+	  
       function read() {
 		if (ngModel) {
 		  ngModel.$setViewValue(editor.getValue());
@@ -110,7 +123,15 @@ angular.module('ace', []).directive('ace', function() {
 		}
 		// set right side editor content same as left side editor
 		if (editor_id == 'js2lslefteditor' || editor_id === 'js2lsrighteditor') {
-		  scope.js2lsrighteditor.getSession().setValue(ls);
+		  if (editor_id == 'js2lslefteditor' && scope.righteditor_changed == true) {
+		    // Nothing to do here
+			// because this is simulated as JS2LS left editor is updated due to left-arrow button click
+		  } else {
+		    scope.js2lsrighteditor.getSession().setValue(ls);
+			// always make sure left-arrow is hidden, right hand side editor change event enable it whenever required.
+			$('#left_arrow').css('display', 'none');
+		  }
+		  scope.righteditor_changed == false;
 		} else if (editor_id == 'cs2lslefteditor' || editor_id === 'cs2lsrighteditor') {
 		  scope.cs2lsrighteditor.getSession().setValue(ls);
 		}

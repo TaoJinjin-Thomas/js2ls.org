@@ -82,7 +82,11 @@ $ ->
 </li>
 <li class="selected-{{tab.selected}}" ng-click="toggleTab(tab.name)" ng-repeat="tab in tabs">
 {{tab.name}}
-</li></ul>
+</li>
+<li style="left:-28%; float: right; position: relative; margin-right: 20px">
+<a target="_blank" ng-click="lsChangeHandler()" id="left_arrow"><img height="30" src="img/left_arrow.jpg"></a>
+</li>
+</ul>
 </div>
           </form>
 <br>

@@ -1,0 +1,91 @@
+body
+  background: url('./img/bedge_grunge.png')
+
+#js2lsrighteditor
+  .ace_error, .ace_warning
+    background-image: none !important
+
+#cs2lsrighteditor
+  .ace_error, .ace_warning
+    background-image: none !important
+
+#container
+  width: 95%
+  margin: 20px auto
+  padding: 10px
+  background: #EEE
+  height: 100%
+  -webkit-border-radius: 5px
+  -moz-border-radius: 5px
+  border-radius: 5px
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2), 0 1px 1px rgba(0, 0, 0, 0.2), 0 3px 0 white, 0 4px 0 rgba(0, 0, 0, 0.2), 0 6px 0 white, 0 7px 0 rgba(0, 0, 0, 0.2), 0 8px 8px rgba(0, 0, 0, 0.3)
+
+#tabs
+  ul
+    font-family: Tahoma, Geneva, sans-serif
+    display: block
+    margin: 0 0 0 15px
+    font-size: .75em
+    width: 100%
+  li
+    display: inline-block
+    border-radius: 25px
+    padding: 5px 10px 5px 10px
+    text-shadow: 0 1px 0 #FFF
+    cursor: pointer
+    &:hover
+      background: #CCC
+    &.selected, &.selected-true
+      color: #FFF
+      text-shadow: 0 1px 0 #333
+      background: #999
+      box-shadow: inset 0px 1px 1px #666
+
+.tab
+  text-align: center
+  display: block
+  padding: 5px
+  textarea
+    width: 49%
+    min-height: 500px
+    border: 1px solid #ccc
+    -moz-box-shadow: 0 0 0 1px #fff
+    -webkit-box-shadow: 0 0 0 1px #fff
+    box-shadow: 0 0 0 1px #fff
+    -webkit-border-radius: 5px
+    -moz-border-radius: 5px
+    border-radius: 5px
+  .ace-editor
+    position: relative
+    float: left
+    text-align: left
+    width: 49%
+    min-height: 500px
+    border: 1px solid #ccc
+    -moz-box-shadow: 0 0 0 1px #fff
+    -webkit-box-shadow: 0 0 0 1px #fff
+    box-shadow: 0 0 0 1px #fff
+    -webkit-border-radius: 5px
+    -moz-border-radius: 5px
+    border-radius: 5px
+
+div.error
+  -moz-box-sizing: border-box
+  -webkit-box-sizing: border-box
+  box-sizing: border-box
+  position: absolute
+  top: 20px
+  left: 50%
+  max-width: 40%
+  padding: 5px 10px
+  background: rgba(153, 51, 51, 0.9)
+  color: #eeeeee
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3)
+  z-index: 100
+
+#coffee2ls
+  display: none
+
+@media screen and (max-width: 480px)
+  .tab textarea
+    width: 100%

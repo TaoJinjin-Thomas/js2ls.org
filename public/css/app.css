@@ -1,0 +1,157 @@
+/* `XHTML, HTML4, HTML5 Reset
+ *---------------------------------------------------------------------------------------------------- */
+a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, body, canvas, caption, center, cite, code, dd, del, details, dfn, dialog, div, dl, dt, em, embed, fieldset, figcaption, figure, font, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, hr, html, i, iframe, img, ins, kbd, label, legend, li, mark, menu, meter, nav, object, ol, output, p, pre, progress, q, rp, rt, ruby, s, samp, section, small, span, strike, strong, sub, summary, sup, table, tbody, td, tfoot, th, thead, time, tr, tt, u, ul, var, video, xmp {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 100%; }
+
+html, body {
+  height: 100%; }
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+  /*  Override the default (display: inline) for
+   *  browsers that do not recognize HTML5 tags.
+   *
+   *  IE8 (and lower) requires a shiv:
+   *  http://ejohn.org/blog/html5-shiv */
+  display: block; }
+
+b, strong {
+  /*Makes browsers agree.
+   *IE + Opera = font-weight: bold.
+   *Gecko + WebKit = font-weight: bolder. */
+  font-weight: bold; }
+
+img {
+  color: transparent;
+  font-size: 0;
+  vertical-align: middle;
+  /*For IE.
+   *http://css-tricks.com/ie-fix-bicubic-scaling-for-images */
+  -ms-interpolation-mode: bicubic; }
+
+li {
+  /*For IE6 + IE7. */
+  display: list-item; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+th, td, caption {
+  font-weight: normal;
+  vertical-align: top;
+  text-align: left; }
+
+q {
+  quotes: none; }
+  q:before, q:after {
+    content: "";
+    content: none; }
+
+sub, sup, small {
+  font-size: 75%; }
+
+sub, sup {
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline; }
+
+sub {
+  bottom: -0.25em; }
+
+sup {
+  top: -0.5em; }
+
+svg {
+  /*For IE9. */
+  overflow: hidden; }
+body {
+  background: url("./img/bedge_grunge.png"); }
+
+#js2lsrighteditor .ace_error, #js2lsrighteditor .ace_warning {
+  background-image: none !important; }
+
+#cs2lsrighteditor .ace_error, #cs2lsrighteditor .ace_warning {
+  background-image: none !important; }
+
+#container {
+  width: 95%;
+  margin: 20px auto;
+  padding: 10px;
+  background: #eeeeee;
+  height: 100%;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2), 0 1px 1px rgba(0, 0, 0, 0.2), 0 3px 0 white, 0 4px 0 rgba(0, 0, 0, 0.2), 0 6px 0 white, 0 7px 0 rgba(0, 0, 0, 0.2), 0 8px 8px rgba(0, 0, 0, 0.3); }
+
+#tabs ul {
+  font-family: Tahoma, Geneva, sans-serif;
+  display: block;
+  margin: 0 0 0 15px;
+  font-size: 0.75em;
+  width: 100%; }
+#tabs li {
+  display: inline-block;
+  border-radius: 25px;
+  padding: 5px 10px 5px 10px;
+  text-shadow: 0 1px 0 white;
+  cursor: pointer; }
+  #tabs li:hover {
+    background: #cccccc; }
+  #tabs li.selected, #tabs li.selected-true {
+    color: white;
+    text-shadow: 0 1px 0 #333333;
+    background: #999999;
+    box-shadow: inset 0px 1px 1px #666666; }
+
+.tab {
+  text-align: center;
+  display: block;
+  padding: 5px; }
+  .tab textarea {
+    width: 49%;
+    min-height: 500px;
+    border: 1px solid #cccccc;
+    -moz-box-shadow: 0 0 0 1px white;
+    -webkit-box-shadow: 0 0 0 1px white;
+    box-shadow: 0 0 0 1px white;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px; }
+  .tab .ace-editor {
+    position: relative;
+    float: left;
+    text-align: left;
+    width: 49%;
+    min-height: 500px;
+    border: 1px solid #cccccc;
+    -moz-box-shadow: 0 0 0 1px white;
+    -webkit-box-shadow: 0 0 0 1px white;
+    box-shadow: 0 0 0 1px white;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px; }
+
+div.error {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  max-width: 40%;
+  padding: 5px 10px;
+  background: rgba(153, 51, 51, 0.9);
+  color: #eeeeee;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+  z-index: 100; }
+
+#coffee2ls {
+  display: none; }
+
+@media screen and (max-width: 480px) {
+  .tab textarea {
+    width: 100%; } }

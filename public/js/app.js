@@ -78,12 +78,8 @@ window.require.define({"angular-ace": function(exports, require, module) {
   angular.module('ace', []).directive('ace', function(){
     var loadAceEditor, ACE_EDITOR_CLASS;
     loadAceEditor = function(element, mode, isReadOnly){
-      var editor;
-      editor = window.ace.edit($(element).find('.' + ACE_EDITOR_CLASS)[0]);
-      editor.session.setMode("ace/mode/" + mode);
-      editor.renderer.setShowPrintMargin(false);
-      editor.setReadOnly(isReadOnly);
-      return editor;
+      var x$;
+      return (x$ = window.ace.edit($(element).find("." + ACE_EDITOR_CLASS)[0]), x$.session.setMode("ace/mode/" + mode), x$.renderer.setShowPrintMargin(false), x$.setReadOnly(isReadOnly), x$);
     };
     ACE_EDITOR_CLASS = 'ace-editor';
     return {

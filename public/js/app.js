@@ -91,8 +91,9 @@ window.require.define({"angular-ace": function(exports, require, module) {
       require: '?ngModel',
       transclude: true,
       template: "<div class='transcluded' ng-transclude></div><div class='" + ACE_EDITOR_CLASS + "'></div>",
-      link: function(scope, element, attrs, ngModel){
-        var rightEditorChangeHandler, leftEditorChangeHandler, read, textarea, mode, editor, editor_id, err;
+      link: function(scope, element, arg$, ngModel){
+        var mode, editor_id, rightEditorChangeHandler, leftEditorChangeHandler, read, textarea, editor, err;
+        mode = arg$.ace, editor_id = arg$.id;
         rightEditorChangeHandler = function(){
           return $('#left_arrow').fadeIn();
         };
@@ -130,6 +131,9 @@ window.require.define({"angular-ace": function(exports, require, module) {
           case 'cs2lsrighteditor':
             cs = scope.cs2lslefteditor.getValue();
           }
+          if (/^\s*(#\s*.*)?\s*$/.exec(cs)) {
+            return;
+          }
           ls = '';
           try {
             ls = coffee2ls.compile(coffee2ls.parse(cs));
@@ -155,30 +159,27 @@ window.require.define({"angular-ace": function(exports, require, module) {
             } catch (e$) {}
           }
         };
-        textarea = $(element).find('textarea');
-        textarea.hide();
-        mode = attrs.ace;
-        editor = null;
-        editor_id = attrs.id;
-        switch (editor_id) {
-        case 'js2lslefteditor':
-        case 'js2lsrighteditor':
-        case 'cs2lslefteditor':
-          editor = loadAceEditor(element, mode, false);
-          break;
-        case 'cs2lsrighteditor':
-          editor = loadAceEditor(element, mode, true);
-        }
-        err = null;
-        switch (editor_id) {
-        case 'js2lslefteditor':
-        case 'js2lsrighteditor':
-          err = '#js2lserror';
-          break;
-        case 'cs2lslefteditor':
-        case 'cs2lsrighteditor':
-          err = '#cs2lserror';
-        }
+        textarea = $(element).find('textarea').hide();
+        editor = (function(){
+          switch (editor_id) {
+          case 'js2lslefteditor':
+          case 'js2lsrighteditor':
+          case 'cs2lslefteditor':
+            return loadAceEditor(element, mode, false);
+          case 'cs2lsrighteditor':
+            return loadAceEditor(element, mode, true);
+          }
+        }());
+        err = (function(){
+          switch (editor_id) {
+          case 'js2lslefteditor':
+          case 'js2lsrighteditor':
+            return '#js2lserror';
+          case 'cs2lslefteditor':
+          case 'cs2lsrighteditor':
+            return '#cs2lserror';
+          }
+        }());
         scope.ace = scope[editor_id] = editor;
         if (!ngModel) {
           read();

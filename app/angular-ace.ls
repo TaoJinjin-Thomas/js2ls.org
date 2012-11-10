@@ -7,23 +7,22 @@ loadAceEditor = (element, mode, isReadOnly) ->
     editor.setReadOnly isReadOnly
     editor
 
-const ACE_EDITOR_CLASS = 'ace-editor'
+const ACE_EDITOR_CLASS = \ace-editor
 
 return {
-    restrict: 'A'
-    require: '?ngModel'
-    transclude: true
-    template: '<div class="transcluded" ng-transclude></div><div class="' + ACE_EDITOR_CLASS + '"></div>'
+    restrict: \A
+    require: \?ngModel
+    transclude: yes
+    template: "<div class='transcluded' ng-transclude></div><div class='#ACE_EDITOR_CLASS'></div>"
     link: (scope, element, attrs, ngModel) ->
-        rightEditorChangeHandler = -> ($ '#left_arrow').css 'display', 'block'
+        rightEditorChangeHandler = -> $ \#left_arrow .fadeIn!
         leftEditorChangeHandler = -> read!
         read = ->
             if ngModel
                 ngModel.$setViewValue editor.getValue!
                 textarea.val editor.getValue!
             cs = ''
-            ($ err).html ''
-            ($ err).hide!
+            $ err .html '' .hide!
             switch editor_id
                 case \cs2lslefteditor
                     cs = editor.getValue!
@@ -31,36 +30,35 @@ return {
                     try
                         cs = Js2coffee.build editor.getValue!
                     catch e
-                        ($ err).html '' + e
-                        ($ err).show!
+                        $ err .html "#e" .show!
                 case \js2lsrighteditor
                     try
                         cs = Js2coffee.build scope.js2lslefteditor.getValue!
                     catch e
-                        ($ err).html '' + e
-                        ($ err).show!
+                        $ err .html "#e" .show!
                 case \cs2lsrighteditor
                     cs = scope.cs2lslefteditor.getValue!
             ls = ''
             try
                 ls = coffee2ls.compile coffee2ls.parse cs
             catch e
-                ($ err).html ''
-                ($ err).append (($ '<pre/>').css 'text-align', 'left').text e
-                ($ err).show!
+                $ err
+                    .html ''
+                    .append $(\<pre/>).css('text-align', 'left').text e
+                    .show!
                 return
             switch editor_id
                 case <[ js2lslefteditor js2lsrighteditor ]>
                     unless (editor_id is 'js2lslefteditor' and scope.righteditor_changed)
                         try scope.js2lsrighteditor.getSession!.setValue ls
-                        ($ '#left_arrow').css 'display', 'none'
+                        $ \#left_arrow .hide!
                     scope.righteditor_changed is false
                 case <[ cs2lslefteditor cs2lsrighteditor ]>
                     try scope.cs2lsrighteditor.getSession!.setValue ls
-        textarea = ($ element).find 'textarea'
+        textarea = $ element .find \textarea
         textarea.hide!
         mode = attrs.ace
-        editor = void
+        editor = null
         editor_id = attrs.id
         switch editor_id
             case <[ js2lslefteditor js2lsrighteditor cs2lslefteditor ]>
@@ -68,19 +66,19 @@ return {
             case \cs2lsrighteditor
                 editor = loadAceEditor element, mode, true
 
-        err = void
+        err = null
         switch editor_id
             case <[ js2lslefteditor js2lsrighteditor ]>
-                err = '#js2lserror'
+                err = \#js2lserror
             case <[ cs2lslefteditor cs2lsrighteditor ]>
-                err = '#cs2lserror'
+                err = \#cs2lserror
 
         scope.ace = scope[editor_id] = editor
 
         unless ngModel
             read!
-            if editor_id is 'js2lsrighteditor'
-                editor.getSession!.on 'change', rightEditorChangeHandler
+            if editor_id is \js2lsrighteditor
+                editor.getSession!on \change rightEditorChangeHandler
             return
 
         ngModel.$render = ->

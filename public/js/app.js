@@ -90,11 +90,11 @@ window.require.define({"angular-ace": function(exports, require, module) {
       restrict: 'A',
       require: '?ngModel',
       transclude: true,
-      template: '<div class="transcluded" ng-transclude></div><div class="' + ACE_EDITOR_CLASS + '"></div>',
+      template: "<div class='transcluded' ng-transclude></div><div class='" + ACE_EDITOR_CLASS + "'></div>",
       link: function(scope, element, attrs, ngModel){
         var rightEditorChangeHandler, leftEditorChangeHandler, read, textarea, mode, editor, editor_id, err;
         rightEditorChangeHandler = function(){
-          return $('#left_arrow').css('display', 'block');
+          return $('#left_arrow').fadeIn();
         };
         leftEditorChangeHandler = function(){
           return read();
@@ -106,8 +106,7 @@ window.require.define({"angular-ace": function(exports, require, module) {
             textarea.val(editor.getValue());
           }
           cs = '';
-          $(err).html('');
-          $(err).hide();
+          $(err).html('').hide();
           switch (editor_id) {
           case 'cs2lslefteditor':
             cs = editor.getValue();
@@ -117,8 +116,7 @@ window.require.define({"angular-ace": function(exports, require, module) {
               cs = Js2coffee.build(editor.getValue());
             } catch (e$) {
               e = e$;
-              $(err).html('' + e);
-              $(err).show();
+              $(err).html(e + "").show();
             }
             break;
           case 'js2lsrighteditor':
@@ -126,8 +124,7 @@ window.require.define({"angular-ace": function(exports, require, module) {
               cs = Js2coffee.build(scope.js2lslefteditor.getValue());
             } catch (e$) {
               e = e$;
-              $(err).html('' + e);
-              $(err).show();
+              $(err).html(e + "").show();
             }
             break;
           case 'cs2lsrighteditor':
@@ -138,9 +135,7 @@ window.require.define({"angular-ace": function(exports, require, module) {
             ls = coffee2ls.compile(coffee2ls.parse(cs));
           } catch (e$) {
             e = e$;
-            $(err).html('');
-            $(err).append($('<pre/>').css('text-align', 'left').text(e));
-            $(err).show();
+            $(err).html('').append($('<pre/>').css('text-align', 'left').text(e)).show();
             return;
           }
           switch (editor_id) {
@@ -150,7 +145,7 @@ window.require.define({"angular-ace": function(exports, require, module) {
               try {
                 scope.js2lsrighteditor.getSession().setValue(ls);
               } catch (e$) {}
-              $('#left_arrow').css('display', 'none');
+              $('#left_arrow').hide();
             }
             return scope.righteditor_changed === false;
           case 'cs2lslefteditor':
@@ -163,7 +158,7 @@ window.require.define({"angular-ace": function(exports, require, module) {
         textarea = $(element).find('textarea');
         textarea.hide();
         mode = attrs.ace;
-        editor = void 8;
+        editor = null;
         editor_id = attrs.id;
         switch (editor_id) {
         case 'js2lslefteditor':
@@ -174,7 +169,7 @@ window.require.define({"angular-ace": function(exports, require, module) {
         case 'cs2lsrighteditor':
           editor = loadAceEditor(element, mode, true);
         }
-        err = void 8;
+        err = null;
         switch (editor_id) {
         case 'js2lslefteditor':
         case 'js2lsrighteditor':
@@ -209,42 +204,40 @@ window.require.define({"angular-ace": function(exports, require, module) {
 window.require.define({"controllers": function(exports, require, module) {
   window.TabCtrl = function($scope){
     $scope.currentTab = 'JavaScript';
-    $('#js2ls').css('display', 'block');
-    $('#cs2ls').css('display', 'none');
-    $('#left_arrow').css('display', 'none');
+    $('#js2ls').show();
+    $('#cs2ls').hide();
+    $('#left_arrow').hide();
     $scope.tabs = [
       {
-        name: "JavaScript",
-        selected: true,
-        mode: "javascript"
+        name: 'JavaScript',
+        mode: 'javascript',
+        selected: true
       }, {
-        name: "CoffeeScript",
-        selected: false,
-        mode: "coffee"
+        name: 'CoffeeScript',
+        mode: 'coffee',
+        selected: false
       }
     ];
     $scope.toggleTab = function(tabName){
       if ($scope.currentTab === tabName) {
         return;
-      } else if ($scope.currentTab === 'JavaScript') {
-        $scope.currentTab = 'CoffeeScript';
-      } else if ($scope.currentTab === 'CoffeeScript') {
-        $scope.currentTab = 'JavaScript';
       }
+      $scope.currentTab = tabName;
       angular.forEach($scope.tabs, function(tab){
         return tab.selected = $scope.currentTab === tab.name;
       });
-      if ($scope.currentTab === 'JavaScript') {
-        $('#js2ls').css('display', 'block');
-        return $('#cs2ls').css('display', 'none');
-      } else if ($scope.currentTab === 'CoffeeScript') {
-        $('#cs2ls').css('display', 'block');
-        $('#js2ls').css('display', 'none');
-        return $('#left_arrow').css('display', 'none');
+      switch ($scope.currentTab) {
+      case 'JavaScript':
+        $('#js2ls').show();
+        return $('#cs2ls').hide();
+      case 'CoffeeScript':
+        $('#cs2ls').show();
+        $('#js2ls').hide();
+        return $('#left_arrow').hide();
       }
     };
     return $scope.lsChangeHandler = function(){
-      var ls, js, e;
+      var ls, js, e, x$;
       $scope.righteditor_changed = true;
       ls = $scope.js2lsrighteditor.getValue();
       js = '';
@@ -252,14 +245,16 @@ window.require.define({"controllers": function(exports, require, module) {
         js = coffee2ls.ls2js(ls);
       } catch (e$) {
         e = e$;
-        $('#js2lserror').html('');
-        $('#js2lserror').append($('<pre/>').css('text-align', 'left').text(e));
-        $('#js2lserror').show();
+        x$ = $('#js2lserror');
+        x$.html('');
+        x$.append($('<pre/>').css('text-align', 'left').text(e));
+        x$.show();
         return;
       }
       $scope.js2lslefteditor.getSession().setValue(js);
-      $('#left_arrow').css('display', 'none');
-      return $scope.righteditor_changed = false;
+      $scope.righteditor_changed = false;
+      $('#left_arrow').fadeOut('fast');
+      return $scope.js2lsrighteditor.focus();
     };
   };
   angular.module('myapp', ['ace']);

@@ -1,25 +1,28 @@
 window.TabCtrl = ($scope) ->
-    $scope.currentTab = 'JavaScript'
-    ($ '#js2ls').css 'display', 'block'
-    ($ '#cs2ls').css 'display', 'none'
-    ($ '#left_arrow').css 'display', 'none'
-    $scope.tabs = [{name: "JavaScript", selected: true, mode: "javascript"}, {name: "CoffeeScript", selected: false, mode:"coffee"}];
+    $scope.currentTab = \JavaScript
+
+    $ \#js2ls .show!
+    $ \#cs2ls .hide!
+    $ \#left_arrow .hide!
+
+    $scope.tabs =
+        * { name: \JavaScript   mode: \javascript,   +selected }
+        * { name: \CoffeeScript mode: \coffee,       -selected }
+
     $scope.toggleTab = (tabName) ->
-        if $scope.currentTab is tabName
-            return
-        else if $scope.currentTab is 'JavaScript'
-            $scope.currentTab = 'CoffeeScript'
-        else if $scope.currentTab is 'CoffeeScript'
-            $scope.currentTab = 'JavaScript'
+        return if $scope.currentTab is tabName
+        $scope.currentTab = tabName
         angular.forEach $scope.tabs, (tab) ->
             tab.selected = ($scope.currentTab is tab.name)
-        if $scope.currentTab is 'JavaScript'
-            ($ '#js2ls').css 'display', 'block'
-            ($ '#cs2ls').css 'display', 'none'
-        else if $scope.currentTab is 'CoffeeScript'
-            ($ '#cs2ls').css 'display', 'block'
-            ($ '#js2ls').css 'display', 'none'
-            ($ '#left_arrow').css 'display', 'none'
+        switch $scope.currentTab
+            case \JavaScript
+                $ \#js2ls .show!
+                $ \#cs2ls .hide!
+            case \CoffeeScript
+                $ \#cs2ls .show!
+                $ \#js2ls .hide!
+                $ \#left_arrow .hide!
+
     $scope.lsChangeHandler = ->
         $scope.righteditor_changed = true
         ls = $scope.js2lsrighteditor.getValue!
@@ -27,12 +30,14 @@ window.TabCtrl = ($scope) ->
         try
             js = coffee2ls.ls2js ls
         catch e
-            ($ '#js2lserror').html ''
-            ($ '#js2lserror').append (($ '<pre/>').css 'text-align', 'left').text e
-            ($ '#js2lserror').show!
+            $ \#js2lserror
+                ..html ''
+                ..append $(\<pre/>).css('text-align', 'left').text e
+                ..show!
             return
         $scope.js2lslefteditor.getSession!setValue js
-        ($ '#left_arrow').css 'display', 'none'
         $scope.righteditor_changed = false
+        $ \#left_arrow .fadeOut \fast
+        $scope.js2lsrighteditor.focus!
 
-angular.module 'myapp', ['ace']
+angular.module \myapp <[ ace ]>

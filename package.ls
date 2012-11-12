@@ -10,7 +10,7 @@ engines:
   node: '0.8.x'
   npm: '1.1.x'
 scripts:
-  prepublish: 'env PATH=./node_modules/.bin:"$PATH" lsc -cj package.ls'
+  prepublish: 'lsc -cj package.ls || echo'
 dependencies: {}
 devDependencies:
   brunch: '>= 1.4 < 1.5'
@@ -24,3 +24,7 @@ devDependencies:
   'uglify-js-brunch': '>= 1.0 < 1.5'
   'clean-css-brunch': '>= 1.0 < 1.5'
   testacular: '>= 0.0.16'
+  mocha: '*'
+  chai: '*'
+  sinon: '*'
+  'sinon-chai': '*'

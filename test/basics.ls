@@ -54,7 +54,6 @@ describe 'Home Page', -> ``it``
     browser.visit base_url, ->
       browser.success.should.be.ok
       cs_tab = browser.query 'li[class="selected-false"]'
-      console.log 'cs_tab text = ' + browser.text 'li[class="selected-false"]'
       # Now click CoffeeScript tab
       browser.fire 'click', cs_tab, (done) ->
         (browser.text 'li[class="selected-true"]').should.eq 'CoffeeScript'

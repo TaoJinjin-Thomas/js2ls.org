@@ -50,7 +50,7 @@ describe 'Home Page', -> ``it``
   # TODO. 
   # Skipping this test as AngularJS ng-click event is not fired by Zombie.
   # trying to identify and fixing this issue currently
-  ..skip 'Click CoffeeScript tab', (done) ->
+  .. 'Click CoffeeScript tab', (done) ->
     browser.visit base_url, ->
       browser.success.should.be.ok
       cs_tab = browser.query 'li[class="selected-false"]'
@@ -62,12 +62,11 @@ describe 'Home Page', -> ``it``
         # CoffeeScript tab should be selected
         # JavaScriptScript tab should not be selected
         (browser.text 'li[class="selected-false"]').should.eq 'JavaScript'
-        done!
-      js_tab = browser.query 'li[class="selected-false"]'
-      # Now try to swap tabs
-      browser.fire 'click', js_tab, (done) ->
-        (browser.text 'li[class="selected-true"]').should.eq 'JavaScript'
-        # JavaScript tab should be selected
-        # CoffeeScript tab should not be selected
-        (browser.text 'li[class="selected-false"]').should.eq 'CoffeeScript'
-        done!
+        js_tab = browser.query 'li[class="selected-false"]'
+        # Now try to swap tabs
+        browser.fire 'click', js_tab, (done) ->
+          (browser.text 'li[class="selected-true"]').should.eq 'JavaScript'
+          # JavaScript tab should be selected
+          # CoffeeScript tab should not be selected
+          (browser.text 'li[class="selected-false"]').should.eq 'CoffeeScript'
+      done!

@@ -1,7 +1,7 @@
 should = (require 'chai').should!
 Browser = require 'zombie'
 browser = new Browser
-base_url = 'http://localhost:3333/'
+base_url = "file://#__dirname/../public/index.html"
 
 # demo page rendering correcly checks
 describe 'Home Page', -> ``it``

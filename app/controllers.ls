@@ -35,8 +35,8 @@ window.TabCtrl = ($scope) ->
                 ..show!
             return
         $scope.js2lslefteditor.get-session!setValue js
-        $scope.righteditor_changed = false
-        $ \#left_arrow .fadeOut \fast
         $scope.js2lsrighteditor.focus!
+        $ \#left_arrow .hide!
+        $scope.righteditor_changed = false
 
 angular.module \myapp <[ ace ]>

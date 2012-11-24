@@ -1,7 +1,9 @@
 <- angular.module(\ace []).directive \ace
 
-load-ace-editor = (element, mode, is-read-only) ->
-    window.ace.edit ($ element .find ".#ACE_EDITOR_CLASS" .0)
+load-ace-editor = (element, mode, is-read-only, id) ->
+    ae_div = $ element .find ".#ACE_EDITOR_CLASS" .0
+    ($ ae_div).attr 'id', \ace + id
+    window.ace.edit (ae_div)
         ..session.set-mode "ace/mode/#mode"
         ..renderer.set-show-print-margin false
         ..set-read-only is-read-only
@@ -15,7 +17,7 @@ return {
     +transclude
     template: "<div class='transcluded' ng-transclude></div><div class='#ACE_EDITOR_CLASS'></div>"
     link: (scope, element, {ace: mode, id: editor_id}, ng-model) ->
-        rightEditorChangeHandler = -> $ \#left_arrow .fade-in!
+        rightEditorChangeHandler = -> $ \#left_arrow .show!
         leftEditorChangeHandler = -> read!
         read = ->
             if ng-model
@@ -54,16 +56,16 @@ return {
         textarea = $ element .find \textarea .hide!
         editor = switch editor_id
             | <[ js2lslefteditor js2lsrighteditor cs2lslefteditor ]>
-                load-ace-editor element, mode, false
+                load-ace-editor element, mode, false, editor_id
             | \cs2lsrighteditor
-                load-ace-editor element, mode, true
+                load-ace-editor element, mode, true, editor_id
 
         err = switch editor_id
             | <[ js2lslefteditor js2lsrighteditor ]> => \#js2lserror
             | <[ cs2lslefteditor cs2lsrighteditor ]> => \#cs2lserror
 
         scope.ace = scope[editor_id] = editor
-
+        
         unless ng-model
             read!
             if editor_id is \js2lsrighteditor

@@ -1,13 +1,22 @@
 <- angular.module(\ace []).directive \ace
 
+class MockEditor
+    (@div) -> @text = $(@div).find('textarea')
+    get-session: -> @
+    set-value: -> @text.val it
+    get-value: -> @text.val!
+    focus: -> @text.focus!
+    on: -> # TODO
+
 load-ace-editor = (element, mode, is-read-only, id) ->
     ae_div = $ element .find ".#ACE_EDITOR_CLASS" .0
     ($ ae_div).attr 'id', \ace + id
-    window.ace.edit (ae_div)
+    try window.ace.edit (ae_div)
         ..session.set-mode "ace/mode/#mode"
         ..renderer.set-show-print-margin false
         ..set-read-only is-read-only
         ..
+    catch => new MockEditor ae_div
 
 const ACE_EDITOR_CLASS = \ace-editor
 

@@ -76,12 +76,41 @@
 
 window.require.define({"angular-ace": function(exports, require, module) {
   angular.module('ace', []).directive('ace', function(){
-    var loadAceEditor, ACE_EDITOR_CLASS;
+    var MockEditor, loadAceEditor, ACE_EDITOR_CLASS;
+    MockEditor = (function(){
+      MockEditor.displayName = 'MockEditor';
+      var prototype = MockEditor.prototype, constructor = MockEditor;
+      function MockEditor(div){
+        this.div = div;
+        this.text = $(this.div).find('textarea');
+      }
+      prototype.getSession = function(){
+        return this;
+      };
+      prototype.setValue = function(it){
+        return this.text.val(it);
+      };
+      prototype.focus = function(){
+        return this.text.focus();
+      };
+      prototype.getValue = function(){
+        return this.text.val();
+      };
+      prototype.on = function(event, cb){
+        return this.text.on(event, cb);
+      };
+      return MockEditor;
+    }());
     loadAceEditor = function(element, mode, isReadOnly, id){
-      var ae_div, x$;
+      var ae_div, x$, e;
       ae_div = $(element).find("." + ACE_EDITOR_CLASS)[0];
       $(ae_div).attr('id', 'ace' + id);
-      return (x$ = window.ace.edit(ae_div), x$.session.setMode("ace/mode/" + mode), x$.renderer.setShowPrintMargin(false), x$.setReadOnly(isReadOnly), x$);
+      try {
+        return (x$ = window.ace.edit(ae_div), x$.session.setMode("ace/mode/" + mode), x$.renderer.setShowPrintMargin(false), x$.setReadOnly(isReadOnly), x$);
+      } catch (e$) {
+        e = e$;
+        return new MockEditor(ae_div);
+      }
     };
     ACE_EDITOR_CLASS = 'ace-editor';
     return {
@@ -203,18 +232,10 @@ window.require.define({"angular-ace": function(exports, require, module) {
 
 window.require.define({"controllers": function(exports, require, module) {
   window.TabCtrl = function($scope){
-    var ref$;
     $scope.currentTab = 'JavaScript';
     $('#js2ls').show();
     $('#cs2ls').hide();
     $('#left_arrow').hide();
-    if ((ref$ = function(){
-      return this;
-    }) != null) {
-      if (typeof HTMLDivElement != 'undefined' && HTMLDivElement !== null) {
-        HTMLDivElement.prototype.getBoundingClientRect = ref$;
-      }
-    }
     $scope.tabs = [
       {
         name: 'JavaScript',

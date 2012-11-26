@@ -77,9 +77,11 @@
 window.require.define({"angular-ace": function(exports, require, module) {
   angular.module('ace', []).directive('ace', function(){
     var loadAceEditor, ACE_EDITOR_CLASS;
-    loadAceEditor = function(element, mode, isReadOnly){
-      var x$;
-      return (x$ = window.ace.edit($(element).find("." + ACE_EDITOR_CLASS)[0]), x$.session.setMode("ace/mode/" + mode), x$.renderer.setShowPrintMargin(false), x$.setReadOnly(isReadOnly), x$);
+    loadAceEditor = function(element, mode, isReadOnly, id){
+      var ae_div, x$;
+      ae_div = $(element).find("." + ACE_EDITOR_CLASS)[0];
+      $(ae_div).attr('id', 'ace' + id);
+      return (x$ = window.ace.edit(ae_div), x$.session.setMode("ace/mode/" + mode), x$.renderer.setShowPrintMargin(false), x$.setReadOnly(isReadOnly), x$);
     };
     ACE_EDITOR_CLASS = 'ace-editor';
     return {
@@ -91,7 +93,7 @@ window.require.define({"angular-ace": function(exports, require, module) {
         var mode, editor_id, rightEditorChangeHandler, leftEditorChangeHandler, read, textarea, editor, err;
         mode = arg$.ace, editor_id = arg$.id;
         rightEditorChangeHandler = function(){
-          return $('#left_arrow').fadeIn();
+          return $('#left_arrow').show();
         };
         leftEditorChangeHandler = function(){
           return read();
@@ -161,9 +163,9 @@ window.require.define({"angular-ace": function(exports, require, module) {
           case 'js2lslefteditor':
           case 'js2lsrighteditor':
           case 'cs2lslefteditor':
-            return loadAceEditor(element, mode, false);
+            return loadAceEditor(element, mode, false, editor_id);
           case 'cs2lsrighteditor':
-            return loadAceEditor(element, mode, true);
+            return loadAceEditor(element, mode, true, editor_id);
           }
         }());
         err = (function(){
@@ -176,6 +178,7 @@ window.require.define({"angular-ace": function(exports, require, module) {
             return '#cs2lserror';
           }
         }());
+        $(element).data('editor', editor);
         scope.ace = scope[editor_id] = editor;
         if (!ngModel) {
           read();
@@ -200,10 +203,18 @@ window.require.define({"angular-ace": function(exports, require, module) {
 
 window.require.define({"controllers": function(exports, require, module) {
   window.TabCtrl = function($scope){
+    var ref$;
     $scope.currentTab = 'JavaScript';
     $('#js2ls').show();
     $('#cs2ls').hide();
     $('#left_arrow').hide();
+    if ((ref$ = function(){
+      return this;
+    }) != null) {
+      if (typeof HTMLDivElement != 'undefined' && HTMLDivElement !== null) {
+        HTMLDivElement.prototype.getBoundingClientRect = ref$;
+      }
+    }
     $scope.tabs = [
       {
         name: 'JavaScript',
@@ -249,9 +260,9 @@ window.require.define({"controllers": function(exports, require, module) {
         return;
       }
       $scope.js2lslefteditor.getSession().setValue(js);
-      $scope.righteditor_changed = false;
-      $('#left_arrow').fadeOut('fast');
-      return $scope.js2lsrighteditor.focus();
+      $scope.js2lsrighteditor.focus();
+      $('#left_arrow').hide();
+      return $scope.righteditor_changed = false;
     };
   };
   angular.module('myapp', ['ace']);

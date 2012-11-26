@@ -5,6 +5,12 @@ window.TabCtrl = ($scope) ->
     $ \#cs2ls .hide!
     $ \#left_arrow .hide!
 
+    #HTMLDivElement::getBoundingClientRect = -> this
+    hasOwnMethod = HTMLDivElement::hasOwnProperty 'getBoundingClientRect'
+
+    unless hasOwnMethod
+        HTMLDivElement::getBoundingClientRect = -> this
+
     $scope.tabs =
         * { name: \JavaScript   mode: \javascript,   +selected }
         * { name: \CoffeeScript mode: \coffee,       -selected }

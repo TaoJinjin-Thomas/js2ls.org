@@ -2,9 +2,9 @@ should = (require \chai).should!
 ua = new (require \zombie)
 # Tried DOM extending to add dummy method to avoid TypeErrors as follows.
 # HTMLDivElement::getBoundingClientRect = -> this in controllers.ls
-# though TypeErrors are gone, RangeErrors are coming and ace-editor layout is distrubed.
-# temporarily console.log until we come across a solution for that.
-ua.silent = \true
+# though TypeErrors are gone, RangeErrors are coming and ace-editor layout is disturbed.
+# temporarily disable console.log until we come across a solution for that.
+#ua.silent = \true
 base_url = "file://#__dirname/../public/index.html"
 
 # demo page rendering correctly checks

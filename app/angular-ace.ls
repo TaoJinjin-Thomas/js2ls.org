@@ -64,6 +64,7 @@ return {
             | <[ js2lslefteditor js2lsrighteditor ]> => \#js2lserror
             | <[ cs2lslefteditor cs2lsrighteditor ]> => \#cs2lserror
 
+        ($ element).data \editor, editor
         scope.ace = scope[editor_id] = editor
         
         unless ng-model

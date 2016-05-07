@@ -141,7 +141,7 @@ window.require.define({"angular-ace": function(exports, require, module) {
             break;
           case 'js2lslefteditor':
             try {
-              cs = Js2coffee.build(editor.getValue());
+              cs = Js2coffee.build(editor.getValue()).code;
             } catch (e$) {
               e = e$;
               $(err).html(e + "").show();
@@ -149,7 +149,7 @@ window.require.define({"angular-ace": function(exports, require, module) {
             break;
           case 'js2lsrighteditor':
             try {
-              cs = Js2coffee.build(scope.js2lslefteditor.getValue());
+              cs = Js2coffee.build(scope.js2lslefteditor.getValue()).code;
             } catch (e$) {
               e = e$;
               $(err).html(e + "").show();
